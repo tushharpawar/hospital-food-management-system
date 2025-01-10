@@ -7,7 +7,7 @@ export const POST = async (req: NextRequest,{params}:{params:{patientId:string}}
   try {
 
     const { dietDetails } = await req.json();
-    const {patientId} =await params
+    const patientId = params.patientId
 
     // Validate required fields
     if (!dietDetails) {
