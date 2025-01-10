@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  male
+  female
+  other
+}
+
+enum MealTime {
+  MORNING
+  EVENING
+  NIGHT
+}
+
+enum PantryTaskStatus {
+  PENDING
+  COMPLETED
+}
+
+enum DeliveryTaskStatus {
+  ON_THE_WAY
+  DELIVERED
+}
+
+model Patient {
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  diseases         String
+  allergies        String
+  roomNumber       Int
+  bedNumber        Int
+  floorNumber      Int
+  age              Int
+  gender           Gender
+  contactInfo      String
+  emergencyContact String
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  DietChart        DietChart[]
+}
+
+
+model PantryStaff {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  contact   String       @unique
+  tasks     PantryTask[]
+}
+
+
+
+model DeliveryPersonnel {
+  id      String         @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  contact String         @unique
+  tasks   DeliveryTask[]
+}
+
+model DietChart {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  patientId    String       @db.ObjectId
+  patient      Patient      @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  mealTime     MealTime
+  ingredients  String
+  instructions String
+  staffName    String
+  staffContact String
+  location     String       @unique
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  PantryTask   PantryTask[] 
+}
+
+model PantryTask {
+  id                       String           @id @default(auto()) @map("_id") @db.ObjectId
+  dietChartId              String           @db.ObjectId
+  dietChart                DietChart        @relation(fields: [dietChartId], references: [id], onDelete: Cascade)
+  pantryStaffContact       String
+  pantryStaff              PantryStaff      @relation(fields: [pantryStaffContact], references: [contact], onDelete: Cascade)
+  status                   PantryTaskStatus
+  deliveryPersonnelName    String
+  deliveryPersonnelContact String
+  deliveryLocation         String
+  deliveryTime             DateTime?
+  createdAt                DateTime         @default(now())
+  updatedAt                DateTime         @updatedAt
+  DeliveryTask             DeliveryTask[]
+}
+
+model DeliveryTask {
+  id                       String             @id @default(auto()) @map("_id") @db.ObjectId
+  deliveryPersonnelContact String
+  deliveryPersonnel        DeliveryPersonnel  @relation(fields: [deliveryPersonnelContact], references: [contact], onDelete: Cascade)
+  pantryTaskId             String             @db.ObjectId
+  pantryTask               PantryTask         @relation(fields: [pantryTaskId], references: [id], onDelete: Cascade)
+  status                   DeliveryTaskStatus
+  deliveryLocation         String
+  notes                    String?
+  deliveryTime             DateTime?
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @updatedAt
+}
+
+
