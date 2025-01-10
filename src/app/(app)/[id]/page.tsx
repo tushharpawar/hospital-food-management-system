@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import React, { useEffect, useState } from 'react'
@@ -78,7 +79,7 @@ const Page = () => {
         // Simulate update action (you can replace with actual update logic)
         console.log("Updated Patient:", updatedPatient);
 
-        const response = await axios.post(`/api/update-patient-details/${id}`,{
+         await axios.post(`/api/update-patient-details/${id}`,{
             updatedPatient
         })
 
