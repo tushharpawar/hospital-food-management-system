@@ -1,7 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+const authOptions:NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -11,9 +11,9 @@ export const authOptions = {
       },
       authorize(credentials) {
         const users = [
-          { email: process.env.HOSPITAL_MANAGER_EMAIL, password: process.env.PASSWORD },
-          { email: process.env.HOSPITAL_PANTRY_EMAIL, password: process.env.PASSWORD },
-          { email: process.env.HOSPITAL_DELIVERY_EMAIL, password: process.env.PASSWORD },
+          { email: "hospital_manager@xyz.com", password: "Password@2025" },
+          { email: "hospital_pantry@xyz.com", password: "Password@2025" },
+          { email: "hospital_delivery@xyz.com", password: "Password@2025" },
         ];
 
         const user = users.find(
