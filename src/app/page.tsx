@@ -31,7 +31,7 @@ export default function Home() {
     return <div>Unauthorized</div>;
   }
 
-  const email = session.user.email;  
+  const email = session.user?.email;  
 
   if (email === "hospital_manager@xyz.com") {
     return <FoodManagerPage />;
