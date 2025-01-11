@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export const POST = async (req:NextRequest) => {
   try {
 
-    const { status,id,deliveryPersonnelName,deliveryPersonnelContact } = await req.json();
+    const { status,id,deliveryPersonnelName,deliveryPersonnelContact,location } = await req.json();
 
     const pantryStaffExist = await prisma.pantryTask.findFirst({
       where:{
@@ -32,6 +32,16 @@ export const POST = async (req:NextRequest) => {
       },
       where: {
         id
+      }
+    })
+
+     await prisma.deliveryTask.create({
+      data: {
+        status: 'ON_THE_WAY',
+        deliveryPersonnelContact,
+        deliveryLocation: location,
+        notes: '',
+        pantryTaskId: id
       }
     })
     
