@@ -3,7 +3,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const POST = async (req: NextRequest,{params}:{params:{patientId:string}}) => {
+export async function POST(req: NextRequest,{params}:{params:{patientId:string}},res:NextResponse) : Promise<NextResponse>{
   try {
 
     const { dietDetails } = await req.json();
@@ -19,8 +19,6 @@ export const POST = async (req: NextRequest,{params}:{params:{patientId:string}}
         { status: 400 }
       );
     }
-
-    //Check is pantry staff exist or not
 
     const pantryStaffExist = await prisma.pantryStaff.findFirst({
       where:{
@@ -56,7 +54,6 @@ export const POST = async (req: NextRequest,{params}:{params:{patientId:string}}
           );
     }
 
-    // Create a new meal
     const newMeal = await prisma.dietChart.create({
       data: {
         mealTime:dietDetails.mealTime,
