@@ -1,4 +1,4 @@
-import {  NextResponse } from "next/server";
+import {  NextRequest, NextResponse } from "next/server";
 import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
