@@ -3,7 +3,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const POST = async (req: NextRequest,{params}:{params:{patientId:string}}) => {
+export const POST = async (req: NextRequest,{params}:{params:{patientId:string}},res:NextResponse) => {
   try {
     const {patientId} = await params
     const { updatedPatient } = await req.json();
