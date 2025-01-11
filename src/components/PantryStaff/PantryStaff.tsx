@@ -20,9 +20,22 @@ import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
+interface Task {
+  id: string;
+  status: string;
+  deliveryPersonnelName?: string;
+  deliveryPersonnelContact?: string;
+  dietChart: {
+    mealtime: string;
+    ingredients: string;
+    instructions: string;
+    location: string;
+  };
+}
+
 const Page = () => {
-  const [tasks, setTasks] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
   const fetchTasks = async () => {
@@ -40,7 +53,7 @@ const Page = () => {
     fetchTasks();
   }, []);
 
-  const handleDialogOpen = (task) => {
+  const handleDialogOpen = (task:any) => {
     setSelectedTask(task);
     setOpenDialog(true);
   };
@@ -50,16 +63,16 @@ const Page = () => {
     setSelectedTask(null);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
-    setSelectedTask((prev) => ({
+    setSelectedTask((prev:any) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleStatusChange = (e) => {
-    setSelectedTask((prev) => ({
+  const handleStatusChange = (e:any) => {
+    setSelectedTask((prev:any) => ({
       ...prev,
       status: e.target.value,
     }));
@@ -71,9 +84,9 @@ const Page = () => {
     router.replace("/sign-in");
   };
 
-  const handleUpdate = async (id) => {
+  const handleUpdate = async (id:any) => {
     try {
-      if (!selectedTask.status || !selectedTask?.deliveryPersonnelContact) {
+      if (!selectedTask?.status || !selectedTask?.deliveryPersonnelContact) {
         toast({
           title: "please add all fields",
           variant: "destructive",
@@ -82,8 +95,8 @@ const Page = () => {
 
       const response = await axios.post(`/api/update-pantry-task-status`, {
         status: selectedTask?.status,
-        deliveryPersonnelName: selectedTask?.deliveryPersonnel?.name,
-        deliveryPersonnelContact: selectedTask?.deliveryPersonnel?.contact,
+        deliveryPersonnelName: selectedTask?.deliveryPersonnelName,
+        deliveryPersonnelContact: selectedTask?.deliveryPersonnelContact,
         id,
       });
 
