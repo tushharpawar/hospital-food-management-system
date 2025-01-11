@@ -3,7 +3,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const POST = async (req: NextRequest) => {
+export async function POST(req:NextRequest){
   try {
 
     const { deliveryPersonnelName,deliveryPersonnelContact,deliveryTime, deliveryNote,pantryContact } = await req.json();
