@@ -3,7 +3,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const GET = async (req:NextRequest,{params}:{params:{id:string}}) => {
+export const GET = async (req:NextRequest,{params}:{params:{id:string}},res:NextResponse) => {
   try {
     const {id} = await params
     const patient = await prisma.patient.findFirst({
