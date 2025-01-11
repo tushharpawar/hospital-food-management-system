@@ -97,6 +97,7 @@ const Page = () => {
         status: selectedTask?.status,
         deliveryPersonnelName: selectedTask?.deliveryPersonnelName,
         deliveryPersonnelContact: selectedTask?.deliveryPersonnelContact,
+        location:selectedTask?.dietChart.location,
         id,
       });
 
