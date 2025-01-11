@@ -2,6 +2,7 @@
 import DeliveryPersonnel from "@/components/DeliveryPersonnel/DeliveryPersonnel";
 import FoodManagerPage from "@/components/FoodManager/FoodManagerPage";
 import PantryStaff from "@/components/PantryStaff/PantryStaff";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Session {
@@ -12,6 +13,7 @@ interface Session {
 
 export default function Home() {
    const [session, setSession] = useState<Session | null>(null);
+   const router = useRouter() 
 
    useEffect(() => {
      const fetchSession = async () => {
@@ -33,10 +35,14 @@ export default function Home() {
    }, []);
 
   if (!session) {
-    return <div>Unauthorized</div>;
+    return <div>Unauthorized</div>
   }
 
   const email = session?.user?.email;  
+
+  if(!email){
+    router.replace('/sign-in')
+  }
 
   if (email === "hospital_manager@xyz.com") {
     return <FoodManagerPage />;
