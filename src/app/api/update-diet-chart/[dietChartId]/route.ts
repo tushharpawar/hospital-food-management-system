@@ -3,7 +3,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const POST = async (req: NextRequest,{params}:{params:{dietChartId:string}}) => {
+export const POST = async (req: NextRequest,{params}:{params:{dietChartId:string}},res:NextResponse) => {
   try {
 
     const { dietDetails } = await req.json();
