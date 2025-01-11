@@ -8,11 +8,41 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, TextField,Select, Me
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
+interface Diet {
+  id: string;
+  mealTime: string;
+  ingredients: string;
+  instructions: string;
+  staffName: string;
+  staffContact: string;
+  location: string;
+}
+
+interface DietDetails {
+  mealTime: string;
+  ingredients: string;
+  instructions: string;
+  staffName: string;
+  staffContact: string;
+  location: string;
+}
+
+
 
 const Page = () => {
 
     const {id} = useParams()
-    const [patient,setPatient] = useState([])
+    const [patient,setPatient] = useState({
+      name: '',
+      age: '',
+      gender: '',
+      contactInfo: '',
+      allergies: '',
+      diseases: '',
+      bedNumber: '',
+      floorNumber: '',
+      roomNumber: ''
+    })
 
     const getPatient = async()=>{
         const response = await axios.get(`/api/get-patient/${id}`)
@@ -26,16 +56,19 @@ const Page = () => {
     const [openEditDietDialog, setOpenEditDietDialog] = useState(false);
     const [updatedPatient, setUpdatedPatient] = useState(patient);
     const [dietId, setDietId] = useState();
-    const [dietChart, setDietChart] = useState([]);
+
+    
+    const [dietChart, setDietChart] = useState<Diet[]>([]);
     const [openDietDialog, setOpenDietDialog] = useState(false);
-    const [dietDetails, setDietDetails] = useState({
-        mealTime: '',
-        ingredients: '',
-        instructions: '',
-        staffName: '',
-        staffContact: '',
-        location: '',
-      });
+
+    const [dietDetails, setDietDetails] = useState<DietDetails>({
+      mealTime: '',
+      ingredients: '',
+      instructions: '',
+      staffName: '',
+      staffContact: '',
+      location: '',
+    });
     const router = useRouter();
     const {toast} = useToast()
 
@@ -62,7 +95,7 @@ const Page = () => {
         }));
       };
 
-      const handleGenderChange = (e) =>{
+      const handleGenderChange = (e:any) =>{
         setUpdatedPatient((prev)=>({
             ...prev,
             gender:e.target.value
@@ -76,9 +109,6 @@ const Page = () => {
       };
 
       const handleUpdate =async () => {
-        // Simulate update action (you can replace with actual update logic)
-        console.log("Updated Patient:", updatedPatient);
-
          await axios.post(`/api/update-patient-details/${id}`,{
             updatedPatient
         })
@@ -108,7 +138,7 @@ const Page = () => {
       
       const handleDietInputChange = (e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
         const { name, value } = e.target as HTMLInputElement;
-        setDietDetails((prev) => ({
+        setDietDetails((prev:any) => ({
           ...prev,
           [name]: value,
         }));
@@ -116,7 +146,7 @@ const Page = () => {
 
       const handleMealTimeInputChange = (e: SelectChangeEvent<string>) => {
         const { value } = e.target;
-        setDietDetails((prev) => ({
+        setDietDetails((prev:any) => ({
           ...prev,
           mealTime : value,
         }));
@@ -146,7 +176,7 @@ const Page = () => {
                 toast({
                     title:"Diet chart created!"
                 })
-                setDietChart((prev)=>([...prev,response.data.data]))
+                setDietChart((prev:any)=>[...prev,response.data.data])
             }
         } catch (error) {
             console.log("Error",error);
@@ -189,7 +219,7 @@ const Page = () => {
       const handleEditDietDialogClose = () =>{
         setOpenEditDietDialog(false);
       }
-      const handleEditDietChartOpen = (id) =>{
+      const handleEditDietChartOpen = (id:any) =>{
         setDietId(id)
         setOpenEditDietDialog(true);
       }
