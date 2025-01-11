@@ -11,6 +11,11 @@ import { signOut } from 'next-auth/react';
 const FoodManagerPage = () => {
 
     interface Patient {
+      allergies: unknown;
+      diseases: unknown;
+      floorNumber: unknown;
+      roomNumber: unknown;
+      emergencyContact: unknown;
       id: string;
       name: string;
       age: number;
@@ -20,7 +25,19 @@ const FoodManagerPage = () => {
     }
     
     const [patients, setPatients] = useState<Patient[]>([])
-    const [newPatient, setNewPatient] = useState<Patient[]>([])
+    const [newPatient, setNewPatient] = useState({
+      id: '',
+      name: '',
+      age: 0,
+      gender: '',
+      contactInfo: '',
+      bedNumber: '',
+      diseases: '',
+      allergies: '',
+      floorNumber:'',
+      roomNumber:'',
+      emergencyContact:''
+    })
     const [openDialog, setOpenDialog] = useState(false);
     const {toast} = useToast()
     const router = useRouter()
@@ -59,7 +76,7 @@ const FoodManagerPage = () => {
             }));
           };
     
-          const handleGenderChange = (e) =>{
+          const handleGenderChange = (e:any) =>{
             setNewPatient((prev)=>({
                 ...prev,
                 gender:e.target.value
