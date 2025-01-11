@@ -4,9 +4,14 @@ import FoodManagerPage from "@/components/FoodManager/FoodManagerPage";
 import PantryStaff from "@/components/PantryStaff/PantryStaff";
 import { useEffect, useState } from "react";
 
+interface Session {
+  user: {
+    email: string;
+  };
+}
 
 export default function Home() {
-   const [session, setSession] = useState(null);
+   const [session, setSession] = useState<Session | null>(null);
 
    useEffect(() => {
      const fetchSession = async () => {
@@ -31,7 +36,7 @@ export default function Home() {
     return <div>Unauthorized</div>;
   }
 
-  const email = session.user?.email;  
+  const email = session?.user?.email;  
 
   if (email === "hospital_manager@xyz.com") {
     return <FoodManagerPage />;
