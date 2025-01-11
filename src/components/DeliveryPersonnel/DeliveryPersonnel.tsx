@@ -20,10 +20,16 @@ import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+interface Task {
+  id: string;
+  status: string;
+  deliveryLocation: string;
+}
+
 const Page = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const fetchDeliveryTasks = async () => {
     try {
@@ -43,7 +49,7 @@ const Page = () => {
     fetchDeliveryTasks();
   }, []);
 
-  const handleDialogOpen = (task) => {
+  const handleDialogOpen = (task:any) => {
     setSelectedTask(task);
     setOpenDialog(true);
   };
@@ -53,23 +59,23 @@ const Page = () => {
     setSelectedTask(null);
   };
 
-  const handleStatusChange = (e) => {
-    setSelectedTask((prev) => ({
+  const handleStatusChange = (e:any) => {
+    setSelectedTask((prev:any) => ({
       ...prev,
       status: e.target.value,
     }));
   };
 
-  const handleUpdateStatus = async (id) => {
+  const handleUpdateStatus = async (id:any) => {
     try {
       await axios.post(`/api/update-delivery-status`, {
-        status: selectedTask.status,
+        status: selectedTask?.status,
         id
       });
 
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
-          task.id === selectedTask.id ? { ...task, status: selectedTask.status } : task
+          task.id === selectedTask?.id ? { ...task, status: selectedTask.status } : task
         )
       );
 
@@ -148,7 +154,7 @@ const Page = () => {
           <Button variant="outline" onClick={handleDialogClose}>
             Cancel
           </Button>
-          <Button  onClick={()=>handleUpdateStatus(selectedTask.id)}>
+          <Button  onClick={()=>handleUpdateStatus(selectedTask?.id)}>
             Save
           </Button>
         </DialogActions>
