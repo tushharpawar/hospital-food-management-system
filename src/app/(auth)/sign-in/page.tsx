@@ -82,7 +82,7 @@ const Page = () => {
             </h1>
           </div>
           <div>
-            <FormControl sx={{ m: 1, width: "45ch" }} variant="outlined">
+            <FormControl sx={{ m: 1, width: "auto" }} className="w-full" variant="outlined">
               <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email"
@@ -93,7 +93,7 @@ const Page = () => {
                 required
               />
             </FormControl>
-            <FormControl sx={{ m: 1, width: "45ch" }} variant="outlined">
+            <FormControl sx={{ m: 1, width: "full" }} className="w-full" variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
               </InputLabel>
