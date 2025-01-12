@@ -52,9 +52,9 @@ const Page = () => {
         }
     }
 
+    const [updatedPatient, setUpdatedPatient] = useState(patient);
     const [openDialog, setOpenDialog] = useState(false);
     const [openEditDietDialog, setOpenEditDietDialog] = useState(false);
-    const [updatedPatient, setUpdatedPatient] = useState(patient);
     const [dietId, setDietId] = useState();
 
     
