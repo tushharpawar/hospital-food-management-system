@@ -160,7 +160,7 @@ const FoodManagerPage = () => {
         </div>
 
         <Dialog open={openDialog} onClose={handleDialogClose} fullWidth>
-        <DialogTitle>Edit Patient Details</DialogTitle>
+        <DialogTitle>Add Patient Details</DialogTitle>
         <DialogContent>
           <TextField
             label="Name"
